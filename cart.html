@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Shopping Cart</h1>
+    </header>
+
+    <section id="cartItems"></section>
+
+    <h2 id="total"></h2>
+
+    <button id="payBtn" style="display:block;margin:0 auto 32px auto;max-width:350px;width:100%;">Pagar</button>
+
+    <div id="modalPago" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:1000;justify-content:center;align-items:center;">
+        <div style="background:#fff;padding:32px 24px 24px 24px;border-radius:12px;box-shadow:0 4px 24px rgba(99,102,241,0.13);text-align:center;min-width:280px;">
+            <h2 style="color:#22c55e;margin-bottom:16px;">Pago exitoso</h2>
+            <button id="volverCatalogoBtn" style="margin-top:18px;width:100%;">Regresar al catálogo</button>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+    document.getElementById('payBtn').onclick = function() {
+        document.getElementById('modalPago').style.display = 'flex';
+    };
+    document.getElementById('volverCatalogoBtn').onclick = function() {
+        window.location.href = 'index.html';
+    };
+    </script>
+
+</body>
+
+</html>
