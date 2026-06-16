@@ -8,15 +8,33 @@ body {
 header {
     background: #222;
     color: white;
-    padding: 24px 0 16px 0;
+    padding: 16px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    height: 50px; /* Tamaño controlable del logo */
+    width: auto;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 header h1 {
-    margin: 0 0 8px 0;
-    font-size: 2.2rem;
-    letter-spacing: 2px;
+    display: none; /* Ocultamos el H1 en texto porque ya está en el logo */
 }
 
 nav {
