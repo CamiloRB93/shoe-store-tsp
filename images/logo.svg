@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80">
+  <defs>
+    <linearGradient id="gradColor" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <path d="M25,65 H85 C92,65 96,59 93,53 C88,43 78,39 68,39 L56,22 H35 C25,22 22,32 22,40 C22,45 15,50 15,55 C15,60 19,65 25,65 Z" fill="url(#gradColor)"/>
+  
+  <path d="M17,55 H94" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  
+  <path d="M68,39 L56,22 M48,32 L56,34 M45,26 L52,28 M30,45 Q45,45 55,55" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <text x="110" y="52" font-family="'Segoe UI', Arial, sans-serif" font-size="32" font-weight="900" fill="#ffffff">Shoe<tspan fill="#a5b4fc">Store</tspan></text>
+</svg>
