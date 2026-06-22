@@ -1,5 +1,28 @@
 const productsContainer = document.getElementById("products");
 
+let products = []; 
+
+function cargarCatalogoDesdeFirebase() {
+    db.collection("zapatos").get()
+    .then((querySnapshot) => {
+        products = []; 
+        
+        querySnapshot.forEach((doc) => {
+            products.push(doc.data());
+        });
+
+        // ¡AQUÍ ESTÁ LA MAGIA! Llamamos a tu función original para que pinte los datos que llegaron de internet
+        showProducts(products); 
+    })
+    .catch((error) => {
+        console.error("Error al descargar los productos de Firebase: ", error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    cargarCatalogoDesdeFirebase();
+});
+
 function showProducts(list) {
     productsContainer.innerHTML = "";
 
