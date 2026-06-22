@@ -133,13 +133,79 @@ document.addEventListener("DOMContentLoaded", () => {
         } 
         // Si NO es admin, es un cliente normal
         else {
+            // 1. Pintamos primero la estructura básica de "Mi Cuenta" con un contenedor vacío para el historial
             authContainer.innerHTML = `
                 <h2>Mi Cuenta</h2>
-                <p style="margin-bottom: 20px; color: #555; font-size: 1rem;">¡Hola, <strong>${session.name}</strong>! Bienvenido a tu perfil.</p>
+                <p style="margin-bottom: 15px; color: #555; font-size: 1rem;">
+                ¡Hola, <strong>${session.name}</strong>! Bienvenido a tu perfil.</p>
                 
-                <button type="button" onclick="window.location.href='index.html'" style="background: #3b82f6; width: 100%; margin-top: 15px; padding: 10px; font-weight: bold; color: white; border: none; border-radius: 5px; cursor: pointer;">Ir de Compras</button>
-                <button onclick="logout()" style="background: #ef4444; width: 100%; margin-top: 10px; padding: 10px; font-weight: bold; color: white; border: none; border-radius: 5px; cursor: pointer;">Cerrar Sesión</button>
+                <h3 style="text-align: left; font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 5px; color: #333; margin-top: 20px;">
+                Mis Compras Recientes</h3>
+                
+                <div id="historialComprasContainer" style="margin-top: 10px; max-height: 200px; overflow-y: auto; text-align: left; font-size: 0.9rem; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;">
+                    <p style="color: #666; text-align: center; font-style: italic;">
+                    Cargando tu historial de compras...</p>
+                </div>
+                
+                <button type="button" onclick="window.location.href='index.html'" 
+                style="background: #3b82f6; width: 100%; margin-top: 25px; padding: 10px; font-weight: bold; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Ir de Compras</button>
+
+                <button onclick="logout()" 
+                style="background: #ef4444; width: 100%; margin-top: 10px; padding: 10px; font-weight: bold; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Cerrar Sesión</button>
             `;
+
+            const historialContainer = document.getElementById("historialComprasContainer");
+
+            // 2. Consulta a Firebase el historial filtrando EXCLUSIVAMENTE por el correo del usuario activo
+            db.collection("historial_compras")
+                .where("correoUsuario", "==", session.email)
+                .get()
+                .then((querySnapshot) => {
+                    // Si el usuario no ha comprado nada todavía
+                    if (querySnapshot.empty) {
+                        historialContainer.innerHTML = "<p style='color: #888; text-align: center; margin-top: 10px;'>Aún no has realizado ninguna compra.</p>";
+                        return;
+                    }
+
+                    historialContainer.innerHTML = ""; // Limpiamos el mensaje de "Cargando..."
+
+                    // Recorremos cada recibo encontrado en la nube
+                    querySnapshot.forEach((doc) => {
+                        const compra = doc.data();
+                        
+                        // Formateamos la fecha para que se vea amigable en español
+                        const fechaFormateada = new Date(compra.fecha).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        // Construimos la lista interna de los zapatos comprados en esta orden
+                        let listaProductos = "";
+                        compra.productos.forEach(prod => {
+                            listaProductos += `<li style="margin-bottom: 2px;">${prod.name} (Cant: ${prod.quantity})</li>`;
+                        });
+
+                        // Inyectamos una tarjetita limpia por cada compra
+                        historialContainer.innerHTML += `
+                            <div style="border: 1px solid #e2e8f0; padding: 10px; border-radius: 6px; background: #f8fafc; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                <p style="margin: 0 0 5px 0; color: #64748b; font-size: 0.75rem; font-weight: bold;">Fecha: ${fechaFormateada}</p>
+                                <ul style="margin: 0; padding-left: 20px; color: #334155;">
+                                    ${listaProductos}
+                                </ul>
+                                <p style="margin: 5px 0 0 0; text-align: right; font-weight: bold; color: #10b981;">Total: $${compra.total}</p>
+                            </div>
+                        `;
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error recuperando el historial de compras: ", error);
+                    historialContainer.innerHTML = "<p style='color: #ef4444; text-align: center;'>No se pudo cargar el historial.</p>";
+                });
         }
     }
 });
