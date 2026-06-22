@@ -20,7 +20,7 @@
 
     <h2 id="total"></h2>
 
-    <button id="payBtn" style="display:block;margin:0 auto 32px auto;max-width:350px;width:100%;">Pagar</button>
+    <button id="payBtn" onclick="procesarPago()" style="display:block;margin:0 auto 32px auto;max-width:350px;width:100%;">Pagar</button>
 
     <div id="modalPago" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:1000;justify-content:center;align-items:center;">
         <div style="background:#fff;padding:32px 24px 24px 24px;border-radius:12px;box-shadow:0 4px 24px rgba(99,102,241,0.13);text-align:center;min-width:280px;">
@@ -29,17 +29,12 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
     <script src="js/storage.js"></script>
     <script src="js/cart.js"></script>
-    <script>
-    document.getElementById('payBtn').onclick = function() {
-        document.getElementById('modalPago').style.display = 'flex';
-    };
-    document.getElementById('volverCatalogoBtn').onclick = function() {
-        window.location.href = 'index.html';
-    };
-    </script>
 
 </body>
-
 </html>
