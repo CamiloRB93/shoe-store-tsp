@@ -76,12 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Cambiar dinámicamente los botones del menú de navegación
     const navLinks = document.querySelectorAll("nav a");
     navLinks.forEach(link => {
-        if (link.getAttribute("href") === "login.html" && session) {
-            // Si es admin dice Gestión, si es cliente dice Mi Cuenta
+        // Usamos .includes() para que funcione sin importar si la ruta es ./login.html o /login.html
+        if (link.href.includes("login.html") && session) {
             link.innerText = session.rol === "admin" ? "Gestión" : "Mi Cuenta";
         }
-        if (link.getAttribute("href") === "register.html" && session) {
-            link.style.display = "none";
+        if (link.href.includes("register.html") && session) {
+            link.style.display = "none"; // Ocultamos el botón de registro
         }
     });
 
